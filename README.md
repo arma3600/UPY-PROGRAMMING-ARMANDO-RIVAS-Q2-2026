@@ -20,6 +20,8 @@ To run the script locally, ensure you have a Python 3 environment configured and
 
 ```bash
 python Classwork-08-Numerical-Integration/numerical_integration.py
-## AI Use Declaration
-* **Tool Used:** Gemini
-* **Purpose:** Primarily used to learn how to operate the terminal correctly, troubleshoot environment errors, and translate Python code logic into structured flowchart representations.
+```
+AI Use Declaration
+Tool Used: Gemini Large Language Model (Google).
+
+Purpose: Primarily used to learn how to operate the terminal correctly, troubleshoot environment errors, and translate Python code logic into structured flowchart representations.
