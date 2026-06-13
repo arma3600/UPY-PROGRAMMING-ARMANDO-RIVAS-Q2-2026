@@ -1,0 +1,64 @@
+
+    // INPUT
+    PRINT "Write the left endpoint of the interval: "
+    READ a
+    PRINT "Write the right endpoint of the interval: "
+    READ b
+    PRINT "Write the function to integrate: "
+    READ f_x
+    PRINT "Write the integration method (LRM/RRM/MRM/TRAP): "
+    READ method
+
+    // PROCESS
+    IF "pi" IS_IN a THEN
+        a <- EVALUATE( REPLACE_TEXT(a, "pi", "math.pi") )
+    ELSE
+        a <- CONVERT_TO_FLOAT(a)
+    END IF
+        
+    IF "pi" IS_IN b THEN
+        b <- EVALUATE( REPLACE_TEXT(b, "pi", "math.pi") )
+    ELSE
+        b <- CONVERT_TO_FLOAT(b)
+    END IF
+        
+    n <- 1000
+    h <- (b - a) / n
+    area <- 0.0
+    shift <- 0
+    constant <- 0
+    variable <- 0
+
+    IF method == "RRM" THEN
+        shift <- 1
+    END IF
+        
+    IF method == "MRM" THEN
+        constant <- h / 2
+    END IF
+        
+    IF method == "TRAP" THEN
+        variable <- 1
+        f_0 <- REPLACE_TEXT(f_x, "x", CONVERT_TO_STRING(a))
+        area <- area + (h / 2) * EVALUATE(f_0)
+        
+        FOR i FROM variable TO (n - 1) STEP 1 DO
+            xi <- a + i * h
+            f_xi <- REPLACE_TEXT(f_x, "x", CONVERT_TO_STRING(xi))
+            area <- area + (h / 2) * 2 * EVALUATE(f_xi)
+        END FOR
+            
+        f_xn <- REPLACE_TEXT(f_x, "x", CONVERT_TO_STRING(b))
+        area <- area + (h / 2) * EVALUATE(f_xn)
+        
+    ELSE
+        FOR i FROM shift TO (n + shift - 1) STEP 1 DO
+            xi <- a + i * h
+            height <- REPLACE_TEXT(f_x, "x", CONVERT_TO_STRING(xi + constant))
+            area <- area + h * EVALUATE(height)
+        END FOR
+    END IF
+        
+    // OUTPUT
+    PRINT "The integration of ", f_x, " is ", area
+END
