@@ -1,21 +1,25 @@
-# Classwork Control (CW) CW07 & CW08
+## CW08: Numerical Integration
 
-## CW07: Verification Digit Algorithm
-This directory contains the Python implementation of a script designed to automatically calculate a verification digit based on standard modular arithmetic rules.
+### Description
+This directory contains a Python program developed to approximate the definite integral of a function $f(x)$ within a specified closed interval $[a, b]$ using numerical methods. The script supports four distinct approximation techniques:
+* **LRM:** Left Riemann Minimum / Left Rectangle Method.
+* **RRM:** Right Riemann Maximum / Right Rectangle Method.
+* **MRM:** Midpoint Riemann Method.
+* **TRAP:** Trapezoidal Rule.
 
-### Algorithm Description
-The program processes a string of numeric characters and applies the following logical steps:
+### Implementation Logic & Flow
+The program reads the integration limits ($a, b$), the mathematical function expression as a string ($f(x)$), and the requested method. It handles mathematical constants dynamically (such as parsing `"pi"` to `math.pi`) before initializing a uniform partition grid of $n = 1000$ subintervals with width:
+$$h = \frac{b - a}{n}$$
 
-1. **Reversal:** The base identification number provided by the user is reversed to process the positions from right to left.
-2. **Weighting:** Each digit is sequentially multiplied by a constant sequence ranging from 2 to 7. If the number of digits exceeds the sequence, the multiplier automatically resets to 2.
-3. **Modulus 11:** The remainder of the total sum of the products is calculated using the mathematical modulus 11 operation ( `total % 11` ).
-4. **Subtraction:** The resulting remainder is subtracted from the fixed number 11 to determine the final verification code.
-5. **Special Cases:**
-   * If the final result equals 11, the assigned verification digit is `0`.
-   * If the final result equals 10, the assigned verification digit is the letter `K`.
+Depending on the chosen integration method, the algorithm adjusts iteration parameters, shifts, and evaluation points:
+* **Rectangular Methods (LRM/RRM/MRM):** Computes the Riemann sum by evaluating the function heights at the designated partition points ($x_i + \text{constant}$) multiplied by the subinterval width $h$.
+* **Trapezoidal Method (TRAP):** Approximates the area under the curve by evaluating endpoints individually and computing the composite sum of inner partitions scaled by a factor of 2, weighted by $\frac{h}{2}$.
 
-### Running the Script
-To run the script locally, make sure you have a Python 3 execution environment active and run the following command from your terminal:
+### Execution
+To run the script locally, ensure you have a Python 3 environment configured and execute the following command from the repository root:
 
 ```bash
-python CW07/verificador.py
+python Classwork-08-Numerical-Integration/numerical_integration.py
+## AI Use Declaration
+* **Tool Used:** Gemini
+* **Purpose:** Primarily used to learn how to operate the terminal correctly, troubleshoot environment errors, and translate Python code logic into structured flowchart representations.
