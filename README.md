@@ -1,27 +1,20 @@
-## CW08: Numerical Integration
+# Present Tense Spanish Verb Conjugator
 
-### Description
-This directory contains a Python program developed to approximate the definite integral of a function $f(x)$ within a specified closed interval $[a, b]$ using numerical methods. The script supports four distinct approximation techniques:
-* **LRM:** Left Riemann Minimum / Left Rectangle Method.
-* **RRM:** Right Riemann Maximum / Right Rectangle Method.
-* **MRM:** Midpoint Riemann Method.
-* **TRAP:** Trapezoidal Rule.
+This application is designed to automatically conjugate regular Spanish verbs ending in **-ar**, **-er**, and **-ir** in the present indicative tense. It processes user input to separate the verb's stem from its ending, applies the corresponding grammatical suffixes, and outputs the structured conjugations for all subject pronouns (*yo, tú, él/ella, nosotros, vosotros, ellos/ellas*).
 
-### Implementation Logic & Flow
-The program reads the integration limits ($a, b$), the mathematical function expression as a string ($f(x)$), and the requested method. It handles mathematical constants dynamically (such as parsing `"pi"` to `math.pi`) before initializing a uniform partition grid of $n = 1000$ subintervals with width:
-$$h = \frac{b - a}{n}$$
+## Project Structure
+The implementation is located within the `Classwork-09-Spanish-Verb-Conjugator` directory and includes:
+* `spanish_verb_conjugator.py`: The functional Python source code using standard `# INPUT`, `# PROCESS`, and `# OUTPUT` tracking segments.
+* `PPP.txt`: Detailed algorithmic pseudocode following strict language guidelines.
+* `Flowchart.png`: Visual logical flow map detailing the complete loop iterations and conditional branches.
 
-Depending on the chosen integration method, the algorithm adjusts iteration parameters, shifts, and evaluation points:
-* **Rectangular Methods (LRM/RRM/MRM):** Computes the Riemann sum by evaluating the function heights at the designated partition points ($x_i + \text{constant}$) multiplied by the subinterval width $h$.
-* **Trapezoidal Method (TRAP):** Approximates the area under the curve by evaluating endpoints individually and computing the composite sum of inner partitions scaled by a factor of 2, weighted by $\frac{h}{2}$.
+---
 
-### Execution
-To run the script locally, ensure you have a Python 3 environment configured and execute the following command from the repository root:
+## AI Use Declaration
 
-```bash
-python Classwork-08-Numerical-Integration/numerical_integration.py
-```
-AI Use Declaration
-Tool Used: Gemini Large Language Model (Google).
+In compliance with academic integrity guidelines, I declare that an AI tool (Gemini) was used during this project for the following tasks:
 
-Purpose: Primarily used to learn how to operate the terminal correctly, troubleshoot environment errors, and translate Python code logic into structured flowchart representations.
+1. **Code to Flowchart Conversion**: Assisted in adapting Python data structures (dictionaries and slice operations) into sequential array elements and substring boundaries compatible with Flowgorithm constraints.
+2. **Git & GitHub Assistance**: Provided guidance and troubleshooting support for executing terminal commands to properly structure, commit, and push the project files to GitHub.
+
+All final code execution, logic validation, and repository management were personally verified and completed.
