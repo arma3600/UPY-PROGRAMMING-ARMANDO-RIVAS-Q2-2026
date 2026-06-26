@@ -1,0 +1,158 @@
+
+
+# ---- DEFINE DATA ----
+
+usuarios ← dictionary with 8 entries (6 students, 1 teacher, 1 coordinator)
+    each entry: username → { password, role, full name }
+
+materias ← tuple containing ('Matemáticas', 'Programación', 'Inglés')
+    # tuple because subjects are fixed and never change during execution
+
+calificaciones ← dictionary with 6 entries (one per student username)
+    each entry: username → { subject: grade, subject: grade, subject: grade }
+
+
+# ---- LOGIN LOOP ----
+
+logged_in ← FALSE
+current_user ← empty
+
+WHILE logged_in is FALSE
+    DISPLAY "Enter username:"
+    GET username_input
+    DISPLAY "Enter password:"
+    GET password_input
+
+    IF username_input exists in usuarios
+       AND usuarios[username_input].password equals password_input
+        logged_in ← TRUE
+        current_user ← username_input
+    ELSE
+        DISPLAY "Wrong credentials, try again"
+    END IF
+END WHILE
+
+current_role ← usuarios[current_user].role
+current_name ← usuarios[current_user].full_name
+
+DISPLAY "Welcome, " + current_name + " (" + current_role + ")"
+
+
+# ---- ROLE BRANCHING ----
+
+IF current_role equals 'alumno'
+
+    # ---- STUDENT FLOW ----
+
+    DISPLAY "Boleta de " + current_name
+
+    approved ← empty set
+    pending  ← empty set
+
+    FOR EACH subject IN materias
+        grade ← calificaciones[current_user][subject]
+        DISPLAY subject + ": " + grade
+
+        IF grade >= 7.0
+            ADD subject TO approved
+        END IF
+    END FOR
+
+    pending ← set(materias) - approved  
+    # set difference
+
+    DISPLAY "Materias aprobadas: " + approved
+    DISPLAY "Materias pendientes: " + pending
+
+ELSE IF current_role equals 'maestro'
+
+    # ---- TEACHER FLOW ----
+
+    DISPLAY "Lista de alumnos:"
+    FOR EACH user IN usuarios
+        IF usuarios[user].role equals 'alumno'
+            DISPLAY user + " — " + usuarios[user].full_name
+        END IF
+    END FOR
+
+    # Select student — repeat until valid
+    selected_student ← empty
+    WHILE selected_student NOT IN calificaciones
+        DISPLAY "Select Student:"
+        GET selected_student
+        IF selected_student NOT IN calificaciones
+            DISPLAY "Student not found, try again"
+        END IF
+    END WHILE
+
+    # Select subject — repeat until valid
+    selected_subject ← empty
+    WHILE selected_subject NOT IN materias
+        DISPLAY "Select Subject:"
+        GET selected_subject
+        IF selected_subject NOT IN materias
+            DISPLAY "Invalid subject, try again"
+        END IF
+    END WHILE
+
+    # Enter new grade — repeat until valid number 0.0–10.0
+    new_grade ← -1
+    WHILE new_grade NOT IN range 0.0 to 10.0
+        DISPLAY "Enter new grade 0.0 - 10.0:"
+        GET new_grade
+        IF new_grade is not a number OR outside 0.0–10.0
+            DISPLAY "Enter a valid grade between 0.0 and 10.0"
+        END IF
+    END WHILE
+
+    # ---- CONFIRMATION LOGIC FROM PYTHON ----
+    confirm_change ← empty
+    WHILE confirm_change NOT IN ('si', 'no', 'yes', 'n')
+        DISPLAY "¿Seguro que desea modificar la calificación? (si/no):"
+        GET confirm_change
+        
+        IF confirm_change NOT IN ('si', 'no', 'yes', 'n')
+            DISPLAY "Opción inválida. Ingrese si o no."
+        END IF
+    END WHILE
+
+    # Check the user confirmation choice
+    IF confirm_change equals 'si' OR confirm_change equals 'yes'
+        calificaciones[selected_student][selected_subject] ← new_grade   # overwrite
+        DISPLAY "Grade updated."
+        DISPLAY student name + " | " + selected_subject + " | " + new_grade
+    ELSE
+        DISPLAY "Modificación cancelada. La calificación original no se cambió."
+    END IF
+
+ELSE IF current_role equals 'coordinador'
+
+    # ---- COORDINATOR FLOW (read-only) ----
+
+    DISPLAY "=== Teachers ==="
+    FOR EACH user IN usuarios
+        IF usuarios[user].role equals 'maestro'
+            DISPLAY user + " — " + usuarios[user].full_name
+        END IF
+    END FOR
+
+    DISPLAY "=== Subjects ==="
+    FOR EACH subject IN materias
+        DISPLAY subject
+    END FOR
+
+    DISPLAY "=== Students and Grades ==="
+    FOR EACH student IN calificaciones
+        DISPLAY student name + " (" + student username + "):"
+        FOR EACH subject IN materias
+            DISPLAY "  " + subject + ": " + calificaciones[student][subject]
+        END FOR
+    END FOR
+
+ELSE
+
+    DISPLAY "Unknown role — contact administrator"
+
+END IF
+
+# ---- END OF PROGRAM ----
