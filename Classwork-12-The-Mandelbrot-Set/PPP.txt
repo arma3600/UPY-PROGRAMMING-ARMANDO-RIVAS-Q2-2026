@@ -1,0 +1,60 @@
+PSEUDOCODE
+Mandelbrot Image Renderer (produces mandelbrot-clase.png from config.txt and clase.csv)
+
+START
+
+    IMPORT Image module (PIL)
+
+    // 1. Read configuration file
+    CREATE empty dictionary config
+    GET file "config.txt" (read mode)
+
+    FOR EACH line IN file:
+        SPLIT line BY "=" -> key, value
+        IF value CONTAINS "." THEN
+            config[key] = CONVERT value TO FLOAT
+        ELSE
+            config[key] = CONVERT value TO INTEGER
+        END IF
+    END FOR
+
+    CLOSE file
+
+    DISPLAY config
+
+    // 2. Read the CSV data file
+    GET file "clase.csv" (read mode)
+    data = GET all lines FROM file
+    CLOSE file
+
+    // 3. Extract dimension and iteration parameters
+    height   = config["alto"]
+    width    = config["ancho"]
+    max_iter = config["max_iter"]
+
+    // 4. Create a new blank HSV image with the given dimensions
+    CREATE image (mode "HSV", size = width x height)
+
+    // 5. Remove the header line from the data
+    header = REMOVE first element FROM data
+
+    // 6. Process each remaining line of data
+    FOR EACH line IN data:
+        row, column, iterations = CONVERT (SPLIT line BY ",") TO INTEGERS
+
+        IF iterations == max_iter THEN
+            brightness = 0
+        ELSE
+            brightness = CONVERT ((iterations / max_iter) * 255) TO INTEGER
+        END IF
+
+        SET pixel AT (column, row) IN image TO (brightness, 255, 255)
+    END FOR
+
+    // 7. Convert the image to RGB and save it
+    image_rgb = CONVERT image TO "RGB"
+    DISPLAY image_rgb TO file "mandelbrot-clase.png"
+
+    DISPLAY "DONE"
+
+END
