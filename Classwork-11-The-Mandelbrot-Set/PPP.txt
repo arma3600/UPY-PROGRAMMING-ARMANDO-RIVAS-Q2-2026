@@ -1,0 +1,54 @@
+PSEUDOCODE
+Mandelbrot Set Generator (produces clase.csv from config.txt)
+
+START
+
+    // 1. Read configuration file
+    GET file "config.txt" (read mode)
+    CREATE empty dictionary config
+
+    FOR EACH line IN file:
+        SPLIT line BY "=" -> key, value
+        config[key] = CONVERT value TO FLOAT
+    END FOR
+
+    CLOSE file
+
+    // 2. Convert dimension and iteration parameters to integers
+    width     = CONVERT config["ancho"] TO INTEGER
+    height    = CONVERT config["alto"] TO INTEGER
+    max_iter  = CONVERT config["max_iter"] TO INTEGER
+
+    // 3. Prepare output file
+    CREATE file "clase.csv" (write mode)
+    DISPLAY "row,column,iterations" TO clase.csv
+
+    // 4. Loop through every pixel of the image (row x column)
+    FOR row FROM 0 TO (height - 1):
+        FOR column FROM 0 TO (width - 1):
+
+            // Map pixel coordinates to the complex plane
+            real = config["real_min"] + (column / width) * (config["real_max"] - config["real_min"])
+            imag = config["imag_min"] + (row / height) * (config["imag_max"] - config["imag_min"])
+            c = COMPLEX NUMBER(real, imag)
+
+            // Initialize values for the Mandelbrot calculation
+            z = 0 + 0i
+            iterations = 0
+
+            // Iterate while z does not escape and max iterations not reached
+            WHILE (|z| <= 2) AND (iterations < max_iter) DO
+                z = z * z + c
+                iterations = iterations + 1
+            END WHILE
+
+            // Save the result for the current pixel
+            DISPLAY row, column, iterations TO clase.csv
+
+        END FOR
+    END FOR
+
+    CLOSE file clase.csv
+    DISPLAY "done"
+
+END
