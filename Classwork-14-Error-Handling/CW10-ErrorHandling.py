@@ -1,16 +1,14 @@
 # ==========================================
 # DATA INICIALIZADA (6 Alumnos, 1 Maestro, 1 Coordinator)
 # ==========================================
-usuarios = {
-    'jperez': {'password': '1234', 'rol': 'alumno', 'nombre': 'Juan Pérez'},
-    'amartin': {'password': '1234', 'rol': 'alumno', 'nombre': 'Ana Martín'},
-    'gsolis': {'password': '1234', 'rol': 'alumno', 'nombre': 'Gerardo Solís'},
-    'lcanche': {'password': '1234', 'rol': 'alumno', 'nombre': 'Lizbeth Canché'},
+usuarios = {'jperez': {'password': '1234', 'rol': 'alumno', 'nombre': 'Juan Perez'},
+    'amartin': {'password': '1234', 'rol': 'alumno', 'nombre': 'Ana Martin'},
+    'gsolis': {'password': '1234', 'rol': 'alumno', 'nombre': 'Gerardo Solis'},
+    'lcanche': {'password': '1234', 'rol': 'alumno', 'nombre': 'Lizbeth Canche'},
     'mpech': {'password': '1234', 'rol': 'alumno', 'nombre': 'Manuel Pech'},
     'ucahuich': {'password': '1234', 'rol': 'alumno', 'nombre': 'Uriel Cahuich'},
-    'Chilispin': {'password': '1234', 'rol': 'maestro', 'nombre': 'Christian Tejeda'},
-    'rgarcia':{ {'password': '1234', 'rol': 'coordinador', 'nombre': 'Rosa García'}
-}
+    'arma360': {'password': '1234', 'rol': 'maestro', 'nombre': 'Armando'},
+    'rgarcia': {'password': '1234', 'rol': 'coordinador', 'nombre': 'Rosa García'}}
 
 # Tupla fija e inmutable de materias
 materias = ('Matemáticas', 'Programación', 'Inglés')
@@ -121,7 +119,7 @@ elif rol == 'coordinador':
     print("\n3. Concentrado de Calificaciones de Alumnos:")
     try:
         for estudiante, mapeo_notas in calificaciones.items():
-            # Protegemos ante una discordancia donde un alumno esté en calificaciones pero no en usuarios
+            
             if estudiante not in usuarios:
                 raise KeyError(f"El usuario '{estudiante}' existe en calificaciones pero no está registrado en el sistema.")
                 
